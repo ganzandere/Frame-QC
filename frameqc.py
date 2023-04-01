@@ -5,6 +5,7 @@ from scipy import signal
 import pyroexr
 
 def detect_empty(file):
+    """Detects empty .exrs."""
     pyro_file = pyroexr.load(file)
 
     channel = pyro_file.channel('A')
@@ -63,19 +64,5 @@ def detect_edges(file, chan):
 
     if np.any(edges == 1):
         return file
-
-if __name__ == "__main__":
-    pass
-    import time
-
-    t1 = time.time()
-    # result = detect_edges(r'X:\JFT\01_SHOTS\SC0700_BRACHIOSAURUS\Render\LGT\Camera_500offset_550_600_700_v03\layout\v36\test\sc0700_layout_v36.10511.exr', 'R')
-    # # print(detect_edges(r'X:\JFT\01_SHOTS\SC0200_PTERODACTYL\Render\LGT\Camera2_3_4\layout\v16\sc0200_layout_lpe_spec-gloss_transmission_indirect_v16.0918.exr', 'R'))
-    # result = detect_edges(r'X:\JFT\01_SHOTS\SC1150\Render\Camera_600_700\volume\v27\volume_v27.4638.exr', 'R')
-    # # result = detect_edges(r"X:\JFT\01_SHOTS\SC0550_SKELETON\render\LGT\Camera_500offset_550_600_700_v02\layout\v50\sc0550_layout_data_v50.08290.exr", "A")
-    result = detect_edges(r"X:\JFT\01_SHOTS\SC0550_SKELETON\render\LGT\Camera_500offset_550_600_700_v02\test\v50\sc0550_layout_v50.08695.exr", "R")
-    print(f"detect_edges took {time.time()-t1}s. to complete.")
-    if result:
-        print("Possible problem detected\n")
 
     
