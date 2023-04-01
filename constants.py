@@ -5,7 +5,7 @@ FRAME_PATTERN = r'\.\d{1,10}'
 FOLDER_ENTRY_WIDTH = 620
 RANGE_ENTRY_WIDTH = 100
 
-METHOD_OPTIONS = ['Sobol']
+METHOD_OPTIONS = ['Sobel', "All", "Any", "Temporal"]
 CHAN_OPTIONS = ['R', 'G', 'B', 'A', 'Z', 'QC']
 
 SEQ_HEIGHT = 175
