@@ -7,7 +7,7 @@ import customtkinter as ctk
 
 import constants as c
 from helpers import sequence_sorter, sequence_collector
-from frame_inspector import detect_edges
+from frameqc import detect_edges
 
 class App(ctk.CTk):
     """Defines Frame Inspector GUI"""
