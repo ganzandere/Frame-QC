@@ -1,13 +1,14 @@
+"""Frame quality check GUI module for detecting render error artefacts."""
 import multiprocessing
-import time
 import os
 from tkinter import filedialog as fd
 
 import customtkinter as ctk
 
 import constants as c
-from helpers import sequence_sorter, sequence_collector
 from frameqc import detect_edges
+from helpers import sequence_collector, sequence_sorter
+
 
 class App(ctk.CTk):
     """Defines Frame Inspector GUI"""
