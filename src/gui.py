@@ -213,16 +213,18 @@ class App(ctk.CTk):
                 for chunk in file_chunks:                
                     temp = ((file, self.chan_val.get()) for file in chunk)
                     result_chunk = pool.starmap(detect_edges, temp)
-                    # results.extend(result_chunk)
-                    result = [r for sublist in chunk for r in result_chunk if r]
+                    results.extend(result_chunk)
+                    result = [r for r in results if r]
                     self.suspects.append(result)
-                    # print(f"\nProcessed {len(chunk)} files.")
-                
+                    results = []
+            self.suspects = [r for sublist in self.suspects for r in sublist]
+
         if method == 'Temporal':
             for i in range(1, len(self.files)-1):
                 filelist = [self.files[i-1], self.files[i], self.files[i+1]]
                 result = detect_change(filelist, self.chan_val.get())                
-                self.suspects.append(result)
+                if result:
+                    self.suspects.append(result)
 
         self.log.delete("0.0", "end")
         for s in self.suspects:
