@@ -15,7 +15,6 @@ def detect_empty(file, chan):
 
 def detect_change(files, chan):
     """Detects 32x32 grid changes between frames"""
-    files = files
     grid_size = 32
     # pyro_file = pyroexr.load(files[0])
     # channel = pyro_file.channel(chan)
@@ -35,7 +34,7 @@ def detect_change(files, chan):
     num_grids_y = channel1.shape[1] // grid_size
 
     grid_mean = np.zeros_like(channel1)
-    thresh = 500
+    thresh = 2000
 
     for i in range(num_grids_x):
         for j in range(num_grids_y):
@@ -48,17 +47,27 @@ def detect_change(files, chan):
             grid2 = channel2[row_start:row_end, col_start:col_end]
             grid3 = channel3[row_start:row_end, col_start:col_end]
 
-            diff = np.abs(grid1 - grid2) + np.abs(grid2 - grid3) + np.abs(grid3 - grid1)
             if np.sum(grid2) == 0:
-                # if diff > thresh:
+                diff = np.abs(grid1 - grid2) + np.abs(grid2 - grid3) + np.abs(grid3 - grid1)
+            
+                # if np.sum(diff) > thresh:
                 #     grid_mean[row_start:row_end, col_start:col_end] = 1
-                grid_mean[row_start:row_end, col_start:col_end] = diff
+                grid_mean[row_start:row_end, col_start:col_end] = np.sum(diff)
+                
 
-    if np.any(grid_mean == 1):
-        return files[1]          
-    # plt.imshow(channel2)
-    # plt.imshow(grid_mean, alpha=0.5)
-    # plt.show()
+
+    print(f"{files[1]}: max value found: {np.max(grid_mean)}")
+    
+    # mask = np.zeros_like(grid_mean)
+    # mask = np.where(grid_mean > 0.1, 1, 0)
+    
+    if np.any(grid_mean > thresh):
+
+        plt.imshow(channel2)
+        plt.imshow(grid_mean, cmap='gray', alpha=0.6)
+        plt.show()
+        return files[1]    
+    
 
 
 def detect_edges(file, chan):
